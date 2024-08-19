@@ -1,6 +1,6 @@
 body {
   margin: 20px;
-  background-color: lightgray;
+  background-color: #fbfbfb;
 }
 
 .app-container {
@@ -56,6 +56,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-bottom: 1em;
 }
 
 textarea, input {
@@ -67,7 +68,7 @@ textarea, input {
 
 .note-form button {
   border-radius: 5px;
-  background-color: rgb(64, 154, 184);
+  background-color: #5c8048;
   border:none;
   padding:10px;
   font-size: 17px;
@@ -75,7 +76,7 @@ textarea, input {
 }
 
 .note-form button:hover {
-  background-color: rgb(10, 1775, 198);
+  background-color: #4b693b;
   cursor: pointer;
 }
 

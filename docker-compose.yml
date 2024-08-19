@@ -47,9 +47,9 @@ services:
   app-frontend:
     depends_on:
       - app-backend
-    container_name: notes-app-frontend-maybe-fixed
+    container_name: notes-app-frontend
     # build: ./notes-app-frontend
-    build: ./notes-app-frontend-maybe-fixed
+    build: ./notes-app-frontend
     restart: on-failure
     env_file: ./.env
     environment:
@@ -57,8 +57,8 @@ services:
     ports:
       - $APP_FRONT_LOCAL_PORT:$APP_FRONT_DOCKER_PORT
     volumes:
-      - ./notes-app-frontend-maybe-fixed:/notes-app-frontend
-      - ./notes-app-frontend-maybe-fixed:/notes-app-frontend
+      - ./notes-app-frontend:/notes-app-frontend
+      - ./notes-app-frontend:/notes-app-frontend
     develop:
       watch:
         - action: sync

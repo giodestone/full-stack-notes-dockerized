@@ -9,7 +9,6 @@ A simple CRUD React/Express/TypeScript/Postgres full-stack notes app which is co
 This project was intended for me to learn more about React, TypeScript, NPM, Docker/containerization, and creating APIs. This was completed in my spare time.
 
 ## Technologies Used
-
 Stack
 * Node.js (ts-node)
 * Express
