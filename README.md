@@ -1,6 +1,6 @@
 # Full Stack Notes Dockerized
 
-![Placeholder Image](https://raw.githubusercontent.com/giodestone/full-stack-notes-dockerized/main/Images/Placeholder1.jpg)
+![Placeholder Image](https://raw.githubusercontent.com/giodestone/full-stack-notes-dockerized/main/Images/Image1.jpg)
 
 ** THIS PAGE AND PROJECT IS A WIP ON ITS POLISH STAGE **
 
