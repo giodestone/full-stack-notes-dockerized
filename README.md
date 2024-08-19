@@ -2,7 +2,7 @@
 
 ![Placeholder Image](https://raw.githubusercontent.com/giodestone/full-stack-notes-dockerized/main/Images/Image1.jpg)
 
-** THIS PAGE AND PROJECT IS A WIP ON ITS POLISH STAGE **
+** THIS PAGE AND PROJECT IS BEING POLISHED **
 
 A simple CRUD React/Express/TypeScript/Postgres full-stack notes app which is containerized for easy development.
 
