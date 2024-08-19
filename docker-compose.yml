@@ -1,0 +1,77 @@
+version: '3.6'
+
+services:
+  database:
+    container_name: notes-app-database
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+    - POSTGRES_USER=$POSTGRESDB_USER
+    - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+    - POSTGRES_DB=$POSTGRESDB_DATABASE
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    volumes:
+        - db:/var/lib/postgres
+  
+
+  app-backend:
+    depends_on: # services that must start before this one
+      - database
+    container_name: notes-app-backend
+    build: ./notes-app-backend # run the dockerfile in this directory
+    restart: on-failure
+    env_file: .env # file with environment variables
+    environment: # declare additional environment variables
+    - DB_HOST=database # must be the name of the service that actually runs the database.
+    - DB_USER=$POSTGRESDB_USER # $ means get from env file.
+    - DB_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+    - DB_NAME=$POSTGRESDB_DATABASE
+    - DB_PORT=$POSTGRESDB_DOCKER_PORT
+    ports:
+    - $APP_SERVER_LOCAL_PORT:$APP_SERVER_DOCKER_PORT
+    volumes: # all files from ./notes-app-backend on the host and from /notes-app-backend will be synced
+      - ./notes-app-backend:/notes-app-backend
+    develop:
+      watch:
+        - action: sync
+          path: ./notes-app-backend
+          target: /src/
+        - action: rebuild
+          path: ./notes-app-backend/package.json
+        - action: rebuild
+          path: .env
+
+
+  app-frontend:
+    depends_on:
+      - app-backend
+    container_name: notes-app-frontend-maybe-fixed
+    # build: ./notes-app-frontend
+    build: ./notes-app-frontend-maybe-fixed
+    restart: on-failure
+    env_file: ./.env
+    environment:
+      - APP_FRONT_DOCKER_PORT=$APP_FRONT_DOCKER_PORT
+    ports:
+      - $APP_FRONT_LOCAL_PORT:$APP_FRONT_DOCKER_PORT
+    volumes:
+      - ./notes-app-frontend-maybe-fixed:/notes-app-frontend
+      - ./notes-app-frontend-maybe-fixed:/notes-app-frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./notes-app-frontend
+          target: /src/
+        - action: rebuild
+          path: ./notes-app-frontend/package.json
+        - action: rebuild
+          path: .env
+
+
+volumes:
+  db:
+
+
+
