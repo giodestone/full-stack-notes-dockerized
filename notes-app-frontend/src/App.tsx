@@ -3,12 +3,18 @@ import React, { useEffect } from 'react';
 import { useState } from "react";
 import.meta.hot
 
+/**
+ * Represents a note stored in the database.
+ */
 type Note = {
   id: number;
   title: string;
   content: string;
 }
 
+/**
+ * Editor and display as fetched for the notes.
+ */
 const App = () => {
   const [notes, setNotes] = useState<Note[]>([
     // {
@@ -33,10 +39,9 @@ const App = () => {
     // },
   ]);
 
-  // should be titled newNoteTitle, and newNoteContent as it only refers to the new note creation.
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
+  // For the note editor to the left. Can be used for editing existing notes or creating new ones.
+  const [noteEditorTitle, setNoteEditorTitle] = useState("");
+  const [noteEditorContent, setNoteEditorContent] = useState("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   useEffect(() => {
@@ -53,41 +58,44 @@ const App = () => {
     fetchNotes();
   }, []);
 
+  /**
+   * Logic for selecting the currently selected note.
+   * @param note The clicked note.
+   */
   const handleNoteClick = (note: Note) => {
     setSelectedNote(note);
-    setTitle(note.title);
-    setContent(note.content);
+    setNoteEditorTitle(note.title);
+    setNoteEditorContent(note.content);
   }
 
+  /**
+   * Handle when the 'add new note' button is clicked. Creates a new note and queries the API.
+   * @param event The event default will be prevented.
+   */
   const handleAddNote = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    // const newNote: Note = {
-    //   id: notes.length + 1,
-    //   title: title,
-    //   content: content
-    // }
-
     try {
       const response = await fetch("http://localhost:6868/api/notes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, content })
+        body: JSON.stringify({ title: noteEditorTitle, content: noteEditorContent })
       });
       const newNote = await response.json();
       setNotes([newNote, ...notes]);
-      setTitle("");
-      setContent("");
+      setNoteEditorTitle("");
+      setNoteEditorContent("");
     } catch (e)
     {
       console.log(e);
     }
-
-
   }
 
+  /**
+   * Handles when an existing note is updated. Queries API.
+   * @param event The event that triggered this update. Default will be prevented.
+   */
   const handleUpdateNote = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -100,10 +108,8 @@ const App = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, content })
+        body: JSON.stringify({ title: noteEditorTitle, content: noteEditorContent })
       });
-
-      
 
       const updatedNote: Note = await response.json() as Note;
       
@@ -115,31 +121,28 @@ const App = () => {
       const updatedNotesList = notes.map((note => note.id == selectedNote.id ? updatedNote : note));
 
       setNotes(updatedNotesList);
-      setTitle("");
-      setContent("");
+      setNoteEditorTitle("");
+      setNoteEditorContent("");
       setSelectedNote(null);
     } catch (err: any) { 
       console.log(err);
     }
-
-    // const updatedNote: Note = {
-    //   id: selectedNote.id,
-    //   title: title,
-    //   content: content
-    // }
-
-    // // todo this is better as a map
-    // const updatedNotesList = notes.map((note => note.id == selectedNote.id ? updatedNote : note));
-
-
   }
 
+  /**
+   * Handle when 'cancel' is pressed on the note editor.
+   */
   const handleCancel = () => {
-    setTitle("");
-    setContent("");
+    setNoteEditorTitle("");
+    setNoteEditorContent("");
     setSelectedNote(null);
   }
 
+  /**
+   * Handles when a note is deleted. Queries API.
+   * @param event The event that triggered this. Will not be propagated to the note.
+   * @param noteId The ID of the note as in the database.
+   */
   const deleteNote = async (event: React.MouseEvent, noteId: number) => {
     event.stopPropagation(); // stop the delete note onclick propagating down to the onclick for the note.
 
@@ -159,8 +162,8 @@ const App = () => {
       setNotes(updatedNotes);
 
       if (selectedNote?.id === noteId) {
-        setTitle("");
-        setContent("");
+        setNoteEditorTitle("");
+        setNoteEditorContent("");
         setSelectedNote(null);
       }
       
@@ -176,15 +179,15 @@ const App = () => {
         onSubmit={(event) => selectedNote ? handleUpdateNote(event) : handleAddNote(event)}
       >
         <input
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          value={noteEditorTitle}
+          onChange={(event) => setNoteEditorTitle(event.target.value)}
           placeholder="Title"
           required
         >
         </input>
         <textarea
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
+          value={noteEditorContent}
+          onChange={(event) => setNoteEditorContent(event.target.value)}
           placeholder="Content"
           rows={10}
           required
