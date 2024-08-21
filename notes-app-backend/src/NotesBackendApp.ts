@@ -4,6 +4,9 @@ import { DatabaseConnectionInfo } from "./DatabaseConnectionInfo";
 import { Sequelize, DataTypes, Model, ModelStatic } from 'sequelize';
 import Note, { NoteModel } from "./NotesModel";
 
+/**
+ * Class for the backend server for the app.
+ */
 export class NotesBackendApp {
     private sequelize: Sequelize | undefined;
     private app: express.Application | undefined;
@@ -12,6 +15,9 @@ export class NotesBackendApp {
         this.Begin();
     }
 
+    /**
+     * Begins the setup process.
+     */
     private async Begin() {
         console.log("Setting up database...")
         await this.SetupSequelize();
@@ -20,6 +26,9 @@ export class NotesBackendApp {
         console.log("Setup complete.")
     }
 
+    /**
+     * Sets up the database connection and note model for Sequelize.
+     */
     private async SetupSequelize() {
         const databaseConnectionInfo = new DatabaseConnectionInfo();
         this.sequelize = new Sequelize(databaseConnectionInfo.getPostgresConnectionURI());
@@ -35,6 +44,9 @@ export class NotesBackendApp {
         await Note.sync({alter:true});
     }
 
+    /**
+     * Setup Express.js, cors, and API endpoints. This begins to run the application.
+     */
     private async SetupExpress() {
         this.app = express();
 
@@ -119,18 +131,6 @@ export class NotesBackendApp {
 
             return res.status(204).send();
         });
-
-        // this.app.post("/api/notes", async (req, res) => {
-        //     // const note = req.body as Note;
-        
-        //     // if (note == null) {
-        //     //     res.status(400);
-        //     //     return;
-        //     // }
-        
-        
-        
-        // });
             
         this.app.listen(PORT, () => { console.log("Notes app server now running on port: ", PORT) });
     }

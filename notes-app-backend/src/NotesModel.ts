@@ -1,11 +1,17 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 
+/** 
+ * Represents a note in the database.
+ */
 export default class Note extends Model {
     id?: number;
     title?: string;
     content?: string;
 }
 
+/**
+ * Note model for Sequelize.
+ */
 export const NoteModel = (sequelize: Sequelize) => {
     Note.init({
         id: {

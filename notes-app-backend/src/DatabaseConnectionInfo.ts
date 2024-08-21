@@ -43,7 +43,7 @@ export class DatabaseConnectionInfo {
     }
 
     /**
-     * Run a check that confirms if all the retrived values are defined.
+     * Run a check that confirms if all the retrieved values are defined.
      */
     private confirmSetupDetailsOk(): void {
         if (typeof this.user == "undefined")
