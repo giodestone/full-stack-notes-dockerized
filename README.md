@@ -2,8 +2,6 @@
 
 ![Placeholder Image](https://raw.githubusercontent.com/giodestone/full-stack-notes-dockerized/main/Images/Image1.jpg)
 
-** THIS PAGE AND PROJECT IS BEING POLISHED **
-
 A simple CRUD React/Express/TypeScript/Postgres full-stack notes app which is containerized for easy development.
 
 This project was intended for me to learn more about React, TypeScript, NPM, Docker/containerization, and creating APIs. This was completed in my spare time.
@@ -24,7 +22,7 @@ Coding Languages
 * CSS
 
 Packages
-* Attempted to use minimal additional dependancies.
+* Attempted to use minimal additional dependencies.
 * Sequelize
 * Dotenv
 * CORS
@@ -86,7 +84,7 @@ Interaction with the DB is done in code using Sequelise, which was chosen due to
 
 The backend checks if the database has been built before, and if not, creates the tables or amends them.
 
-The database is not directly accessed by the frontend, but rather through an API. This was done to remove the possibility add erronoius data without adding a large amount of input validation database-side.
+The database is not directly accessed by the frontend, but rather through an API. This was done to remove the possibility add erroneous data without adding a large amount of input validation database-side.
 
 ### Docker
 
@@ -117,7 +115,7 @@ The React part of the app would benefit from an overall cleanup and better modul
 
 This development environment uses Dev Containers.
 
-0. Install VSCode and the [Remote Develpment extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
+0. Install VSCode and the [Remote Development extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
 1. Follow 'How To Run'
 3. Make sure the container is running.
 4. Navigate to the 'Remote Explorer' Tab
